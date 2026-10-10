@@ -13,8 +13,48 @@
     </header>
 
     <main>
+        <!-- Экран приветствия / регистрации -->
+        <div id="welcome-screen">
+            <div class="welcome-card">
+                <h2 class="welcome-title">Привет! 👋</h2>
+                <p class="welcome-text">Давай познакомимся — это нужно, чтобы сохранять твой прогресс.</p>
+
+                <label class="form-label">
+                    Класс
+                    <select id="classSelect" class="form-input">
+                        <option value="">— Выбери класс —</option>
+                        <option value="1">1 класс</option>
+                        <option value="2">2 класс</option>
+                        <option value="3">3 класс</option>
+                        <option value="4">4 класс</option>
+                        <option value="5">5 класс</option>
+                        <option value="6">6 класс</option>
+                        <option value="7">7 класс</option>
+                        <option value="8">8 класс</option>
+                        <option value="9">9 класс</option>
+                        <option value="10">10 класс</option>
+                        <option value="11">11 класс</option>
+                    </select>
+                </label>
+
+                <label class="form-label">
+                    Имя
+                    <input type="text" id="firstName" class="form-input" placeholder="Например, Ваня">
+                </label>
+
+                <label class="form-label">
+                    Фамилия
+                    <input type="text" id="lastName" class="form-input" placeholder="Например, Иванов">
+                </label>
+
+                <button class="start-btn" id="startBtn">Начать учиться →</button>
+                <p class="form-error" id="formError"></p>
+            </div>
+        </div>
+
         <!-- Главный экран: предметы -->
-        <div id="subjects-screen">
+        <div id="subjects-screen" style="display: none;">
+            <p class="greeting" id="greeting"></p>
             <h2 class="screen-title">Выбери предмет</h2>
             <div class="subjects-grid" id="subjectsGrid"></div>
         </div>

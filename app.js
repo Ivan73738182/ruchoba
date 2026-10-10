@@ -1,30 +1,16 @@
-// Структура данных: предметы и задания
+// Структура предметов и заданий
 const subjects = [
     {
         id: 'math',
         name: 'Математика',
         icon: '📐',
         tasks: [
-            {
-                id: 1,
-                question: 'Найдите значение выражения: 2 + 2 × 2',
-                answers: [
-                    { text: '4', correct: false },
-                    { text: '6', correct: true },
-                    { text: '8', correct: false },
-                    { text: '2', correct: false }
-                ]
-            },
-            {
-                id: 2,
-                question: 'Сколько будет 7 × 8?',
-                answers: [
-                    { text: '48', correct: false },
-                    { text: '54', correct: false },
-                    { text: '56', correct: true },
-                    { text: '64', correct: false }
-                ]
-            }
+            { id: 1, question: 'Найдите значение: 2 + 2 × 2', answers: [
+                { text: '4', correct: false }, { text: '6', correct: true },
+                { text: '8', correct: false }, { text: '2', correct: false } ] },
+            { id: 2, question: 'Сколько будет 7 × 8?', answers: [
+                { text: '48', correct: false }, { text: '54', correct: false },
+                { text: '56', correct: true }, { text: '64', correct: false } ] }
         ]
     },
     {
@@ -32,16 +18,9 @@ const subjects = [
         name: 'Русский язык',
         icon: '📖',
         tasks: [
-            {
-                id: 1,
-                question: 'Сколько букв в слове «РУчеба»?',
-                answers: [
-                    { text: '5', correct: false },
-                    { text: '6', correct: true },
-                    { text: '7', correct: false },
-                    { text: '4', correct: false }
-                ]
-            }
+            { id: 1, question: 'Сколько букв в слове «РУчеба»?', answers: [
+                { text: '5', correct: false }, { text: '6', correct: true },
+                { text: '7', correct: false }, { text: '4', correct: false } ] }
         ]
     },
     {
@@ -49,30 +28,64 @@ const subjects = [
         name: 'Окружающий мир',
         icon: '🌍',
         tasks: [
-            {
-                id: 1,
-                question: 'Какая планета ближе всего к Солнцу?',
-                answers: [
-                    { text: 'Венера', correct: false },
-                    { text: 'Меркурий', correct: true },
-                    { text: 'Марс', correct: false },
-                    { text: 'Земля', correct: false }
-                ]
-            }
+            { id: 1, question: 'Какая планета ближе всего к Солнцу?', answers: [
+                { text: 'Венера', correct: false }, { text: 'Меркурий', correct: true },
+                { text: 'Марс', correct: false }, { text: 'Земля', correct: false } ] }
         ]
     }
 ];
 
-// Прогресс: { 'math-1': true, 'rus-1': true, ... }
+// Профиль пользователя
+let user = JSON.parse(localStorage.getItem('ruchoba-user') || 'null');
+// Прогресс
 let progress = JSON.parse(localStorage.getItem('ruchoba-progress') || '{}');
 
 document.addEventListener('DOMContentLoaded', () => {
+    const welcomeScreen = document.getElementById('welcome-screen');
     const subjectsScreen = document.getElementById('subjects-screen');
     const tasksScreen = document.getElementById('tasks-screen');
     const taskScreen = document.getElementById('task-screen');
 
+    const startBtn = document.getElementById('startBtn');
+    const classSelect = document.getElementById('classSelect');
+    const firstName = document.getElementById('firstName');
+    const lastName = document.getElementById('lastName');
+    const formError = document.getElementById('formError');
+
     let currentSubject = null;
-    let currentTask = null;
+
+    // === Регистрация ===
+    function showWelcome() {
+        welcomeScreen.style.display = 'block';
+        subjectsScreen.style.display = 'none';
+        tasksScreen.style.display = 'none';
+        taskScreen.style.display = 'none';
+    }
+
+    function showSubjects() {
+        welcomeScreen.style.display = 'none';
+        subjectsScreen.style.display = 'block';
+        tasksScreen.style.display = 'none';
+        taskScreen.style.display = 'none';
+        document.getElementById('greeting').textContent =
+            `Привет, ${user.firstName}! Ты в ${user.grade} классе.`;
+        renderSubjects();
+    }
+
+    startBtn.addEventListener('click', () => {
+        const grade = classSelect.value;
+        const fName = firstName.value.trim();
+        const lName = lastName.value.trim();
+
+        if (!grade || !fName || !lName) {
+            formError.textContent = 'Заполни все поля, пожалуйста!';
+            return;
+        }
+
+        user = { grade, firstName: fName, lastName: lName };
+        localStorage.setItem('ruchoba-user', JSON.stringify(user));
+        showSubjects();
+    });
 
     // === Главный экран: предметы ===
     function renderSubjects() {
@@ -93,14 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <svg viewBox="0 0 36 36">
                         <circle class="bg" cx="18" cy="18" r="15.9"></circle>
                         <circle class="fg" cx="18" cy="18" r="15.9"
-                            stroke-dasharray="${percent} 100"
-                            stroke-dashoffset="0"></circle>
+                            stroke-dasharray="${percent} 100" stroke-dashoffset="0"></circle>
                     </svg>
                     <span class="percent">${percent}%</span>
                 </div>
-                <div class="status-text" style="font-size:11px;color:#888;">
-                    ${solved} из ${total}
-                </div>
+                <div style="font-size:11px;color:#888;">${solved} из ${total}</div>
             `;
             card.addEventListener('click', () => openSubject(sub));
             grid.appendChild(card);
@@ -137,8 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // === Экран задания ===
     function openTask(sub, task) {
         currentSubject = sub;
-        currentTask = task;
-
         document.getElementById('taskNumber').textContent = `Задание ${task.id}`;
         document.getElementById('taskSubject').textContent = sub.name;
         document.getElementById('taskQuestion').textContent = task.question;
@@ -156,19 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             btn.addEventListener('click', () => {
                 const isCorrect = ans.correct === true;
-
                 answersDiv.querySelectorAll('.answer').forEach(b => {
                     b.classList.add('disabled');
-                    if (b.dataset.correct === 'true') {
-                        b.classList.add('correct');
-                    }
+                    if (b.dataset.correct === 'true') b.classList.add('correct');
                 });
 
                 const result = document.getElementById('result');
                 if (isCorrect) {
                     result.textContent = '✅ Верно!';
                     result.className = 'result success';
-                    // Сохраняем прогресс
                     progress[`${sub.id}-${task.id}`] = true;
                     localStorage.setItem('ruchoba-progress', JSON.stringify(progress));
                 } else {
@@ -177,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     result.className = 'result error';
                 }
             });
-
             answersDiv.appendChild(btn);
         });
 
@@ -187,15 +190,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === Кнопки «Назад» ===
     document.getElementById('backToSubjects').addEventListener('click', () => {
-        renderSubjects();
-        subjectsScreen.style.display = 'block';
-        tasksScreen.style.display = 'none';
+        showSubjects();
     });
 
     document.getElementById('backToTasks').addEventListener('click', () => {
         if (currentSubject) openSubject(currentSubject);
     });
 
-    // Старт
-    renderSubjects();
+    // === Старт ===
+    if (user) {
+        showSubjects();
+    } else {
+        showWelcome();
+    }
 });
