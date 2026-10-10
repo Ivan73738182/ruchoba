@@ -35,12 +35,13 @@ const subjects = [
     }
 ];
 
-// Профиль пользователя
 let user = JSON.parse(localStorage.getItem('ruchoba-user') || 'null');
-// Прогресс
 let progress = JSON.parse(localStorage.getItem('ruchoba-progress') || '{}');
 
-document.addEventListener('DOMContentLoaded', () => {
+// === Всё делаем после загрузки страницы ===
+window.addEventListener('load', () => {
+    console.log('РУчеба: скрипт загружен');
+
     const welcomeScreen = document.getElementById('welcome-screen');
     const subjectsScreen = document.getElementById('subjects-screen');
     const tasksScreen = document.getElementById('tasks-screen');
@@ -52,19 +53,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastName = document.getElementById('lastName');
     const formError = document.getElementById('formError');
 
-// Пол
-let selectedGender = '';
-document.querySelectorAll('.gender-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        selectedGender = btn.dataset.gender;
-    });
-});
-
     let currentSubject = null;
+    let selectedGender = '';
 
-    // === Регистрация ===
+    // === Обработчики кнопок пола ===
+    const genderBtns = document.querySelectorAll('.gender-btn');
+    console.log('Найдено кнопок пола:', genderBtns.length);
+
+    genderBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            genderBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedGender = btn.dataset.gender;
+            console.log('Выбран пол:', selectedGender);
+        });
+    });
+
+    // === Экраны ===
     function showWelcome() {
         welcomeScreen.style.display = 'block';
         subjectsScreen.style.display = 'none';
@@ -77,25 +82,33 @@ document.querySelectorAll('.gender-btn').forEach(btn => {
         subjectsScreen.style.display = 'block';
         tasksScreen.style.display = 'none';
         taskScreen.style.display = 'none';
-        document.getElementById('greeting').textContent =
-            `Привет, ${user.firstName}! Ты в ${user.grade} классе.`;
+
+        const greeting = document.getElementById('greeting');
+        if (greeting) {
+            greeting.textContent = `Привет, ${user.firstName}! Ты в ${user.grade} классе.`;
+        }
         renderSubjects();
     }
 
-startBtn.addEventListener('click', () => {
-    const grade = classSelect.value;
-    const fName = firstName.value.trim();
-    const lName = lastName.value.trim();
+    // === Кнопка «Начать учиться» ===
+    startBtn.addEventListener('click', () => {
+        console.log('Кнопка нажата');
+        const grade = classSelect.value;
+        const fName = firstName.value.trim();
+        const lName = lastName.value.trim();
 
-    if (!grade || !fName || !lName || !selectedGender) {
-        formError.textContent = 'Заполни все поля, пожалуйста!';
-        return;
-    }
+        console.log('Данные:', { grade, fName, lName, selectedGender });
 
-    user = { grade, firstName: fName, lastName: lName, gender: selectedGender };
-    localStorage.setItem('ruchoba-user', JSON.stringify(user));
-    showSubjects();
-});
+        if (!grade || !fName || !lName || !selectedGender) {
+            formError.textContent = 'Заполни все поля, пожалуйста!';
+            return;
+        }
+
+        user = { grade, firstName: fName, lastName: lName, gender: selectedGender };
+        localStorage.setItem('ruchoba-user', JSON.stringify(user));
+        console.log('Пользователь сохранён:', user);
+        showSubjects();
+    });
 
     // === Главный экран: предметы ===
     function renderSubjects() {
