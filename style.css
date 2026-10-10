@@ -32,9 +32,9 @@ header h1 {
 
 main {
     flex: 1;
-    padding: 16px;
-    max-width: 600px;
+    padding: 12px;
     width: 100%;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -45,17 +45,17 @@ main {
     color: #2d6a4f;
 }
 
-/* Сетка предметов — 2 колонки */
 .subjects-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 10px;
+    width: 100%;
 }
 
 .subject-card {
     background: white;
     border-radius: 16px;
-    padding: 16px 12px;
+    padding: 14px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,33 +63,31 @@ main {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
-    aspect-ratio: 1 / 1;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .subject-card:active {
     transform: scale(0.97);
 }
 
-.subject-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
 .subject-icon {
-    font-size: 40px;
+    font-size: 38px;
 }
 
 .subject-name {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
     color: #1a1a2e;
+    word-wrap: break-word;
+    line-height: 1.2;
 }
 
-/* Круговой прогресс */
 .progress-circle {
-    width: 56px;
-    height: 56px;
+    width: 54px;
+    height: 54px;
     position: relative;
 }
 
@@ -118,12 +116,11 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     color: #2d6a4f;
 }
 
-/* Список заданий */
 .task-list {
     display: grid;
     gap: 10px;
@@ -178,7 +175,6 @@ main {
     font-weight: bold;
 }
 
-/* Кнопка назад */
 .back-btn {
     background: none;
     border: none;
@@ -195,7 +191,6 @@ main {
     opacity: 0.6;
 }
 
-/* Карточка задания */
 .task-card {
     background: white;
     border-radius: 16px;
