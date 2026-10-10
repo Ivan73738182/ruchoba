@@ -38,14 +38,90 @@ main {
     align-items: flex-start;
 }
 
+main > div {
+    width: 100%;
+    max-width: 500px;
+}
+
+.screen-title {
+    font-size: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+    color: #2d6a4f;
+}
+
+/* Список заданий */
+.task-list {
+    display: grid;
+    gap: 12px;
+}
+
+.task-list-item {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: 2px solid transparent;
+}
+
+.task-list-item:active {
+    transform: scale(0.98);
+}
+
+.task-list-item:hover {
+    border-color: #52b788;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.task-list-item .info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.task-list-item .title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.task-list-item .subject {
+    font-size: 13px;
+    color: #888;
+}
+
+.task-list-item .arrow {
+    color: #52b788;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Экран задания */
+.back-btn {
+    background: none;
+    border: none;
+    color: #2d6a4f;
+    font-size: 15px;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 8px 0;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.back-btn:active {
+    opacity: 0.6;
+}
+
 .task-card {
     background: white;
     border-radius: 16px;
     padding: 24px;
-    max-width: 500px;
-    width: 100%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    margin-top: 20px;
 }
 
 .task-header {

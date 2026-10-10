@@ -13,21 +13,24 @@
     </header>
 
     <main>
-        <div class="task-card" id="task">
-            <div class="task-header">
-                <span class="task-number">Задание 1</span>
-                <span class="task-subject">Математика</span>
+        <!-- Экран со списком заданий -->
+        <div id="list-screen">
+            <h2 class="screen-title">Выбери задание</h2>
+            <div class="task-list" id="taskList"></div>
+        </div>
+
+        <!-- Экран с заданием -->
+        <div id="task-screen" style="display: none;">
+            <button class="back-btn" id="backBtn">← Назад к списку</button>
+            <div class="task-card" id="task">
+                <div class="task-header">
+                    <span class="task-number" id="taskNumber">Задание 1</span>
+                    <span class="task-subject" id="taskSubject">Математика</span>
+                </div>
+                <p class="task-question" id="taskQuestion"></p>
+                <div class="answers" id="answers"></div>
+                <div class="result" id="result"></div>
             </div>
-            <p class="task-question">
-                Найдите значение выражения: 2 + 2 × 2
-            </p>
-            <div class="answers">
-                <button class="answer" data-correct="false">4</button>
-                <button class="answer" data-correct="true">6</button>
-                <button class="answer" data-correct="false">8</button>
-                <button class="answer" data-correct="false">2</button>
-            </div>
-            <div class="result" id="result"></div>
         </div>
     </main>
 
