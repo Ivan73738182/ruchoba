@@ -1,16 +1,25 @@
-// Структура предметов и заданий
+// Структура предметов и заданий для 1 класса
 const subjects = [
     {
         id: 'math',
         name: 'Математика',
         icon: '📐',
         tasks: [
-            { id: 1, question: 'Найдите значение: 2 + 2 × 2', answers: [
-                { text: '4', correct: false }, { text: '6', correct: true },
-                { text: '8', correct: false }, { text: '2', correct: false } ] },
-            { id: 2, question: 'Сколько будет 7 × 8?', answers: [
-                { text: '48', correct: false }, { text: '54', correct: false },
-                { text: '56', correct: true }, { text: '64', correct: false } ] }
+            { id: 1, question: 'Сколько будет 2 + 3?', answers: [
+                { text: '4', correct: false }, { text: '5', correct: true },
+                { text: '6', correct: false }, { text: '3', correct: false } ] },
+            { id: 2, question: 'Сколько будет 5 − 2?', answers: [
+                { text: '2', correct: false }, { text: '3', correct: true },
+                { text: '4', correct: false }, { text: '5', correct: false } ] },
+            { id: 3, question: 'Сколько будет 2 × 2?', answers: [
+                { text: '2', correct: false }, { text: '3', correct: false },
+                { text: '4', correct: true }, { text: '5', correct: false } ] },
+            { id: 4, question: 'Сколько будет 10 ÷ 2?', answers: [
+                { text: '4', correct: false }, { text: '5', correct: true },
+                { text: '6', correct: false }, { text: '3', correct: false } ] },
+            { id: 5, question: 'У Пети 3 яблока, мама дала ещё 2. Сколько стало?', answers: [
+                { text: '4', correct: false }, { text: '5', correct: true },
+                { text: '6', correct: false }, { text: '3', correct: false } ] }
         ]
     },
     {
@@ -18,9 +27,21 @@ const subjects = [
         name: 'Русский язык',
         icon: '📖',
         tasks: [
-            { id: 1, question: 'Сколько букв в слове «РУчеба»?', answers: [
-                { text: '5', correct: false }, { text: '6', correct: true },
-                { text: '7', correct: false }, { text: '4', correct: false } ] }
+            { id: 1, question: 'Сколько букв в слове «мама»?', answers: [
+                { text: '3', correct: false }, { text: '4', correct: true },
+                { text: '5', correct: false }, { text: '2', correct: false } ] },
+            { id: 2, question: 'Какая буква первая в слове «кот»?', answers: [
+                { text: 'т', correct: false }, { text: 'о', correct: false },
+                { text: 'к', correct: true }, { text: 'м', correct: false } ] },
+            { id: 3, question: 'Как правильно пишется: «ж_раф»?', answers: [
+                { text: 'жыраф', correct: false }, { text: 'жираф', correct: true },
+                { text: 'жораф', correct: false }, { text: 'жураф', correct: false } ] },
+            { id: 4, question: 'Сколько слогов в слове «мама»?', answers: [
+                { text: '1', correct: false }, { text: '2', correct: true },
+                { text: '3', correct: false }, { text: '4', correct: false } ] },
+            { id: 5, question: 'Как правильно пишется: «ш_шка»?', answers: [
+                { text: 'шашка', correct: false }, { text: 'шишка', correct: true },
+                { text: 'шышка', correct: false }, { text: 'шошка', correct: false } ] }
         ]
     },
     {
@@ -28,9 +49,21 @@ const subjects = [
         name: 'Окружающий мир',
         icon: '🌍',
         tasks: [
-            { id: 1, question: 'Какая планета ближе всего к Солнцу?', answers: [
-                { text: 'Венера', correct: false }, { text: 'Меркурий', correct: true },
-                { text: 'Марс', correct: false }, { text: 'Земля', correct: false } ] }
+            { id: 1, question: 'Сколько ног у кошки?', answers: [
+                { text: '2', correct: false }, { text: '3', correct: false },
+                { text: '4', correct: true }, { text: '5', correct: false } ] },
+            { id: 2, question: 'Какого цвета трава?', answers: [
+                { text: 'Синяя', correct: false }, { text: 'Красная', correct: false },
+                { text: 'Зелёная', correct: true }, { text: 'Жёлтая', correct: false } ] },
+            { id: 3, question: 'Кто говорит «мяу»?', answers: [
+                { text: 'Собака', correct: false }, { text: 'Кошка', correct: true },
+                { text: 'Корова', correct: false }, { text: 'Петух', correct: false } ] },
+            { id: 4, question: 'Когда светит солнце?', answers: [
+                { text: 'Ночью', correct: false }, { text: 'Днём', correct: true },
+                { text: 'Вечером', correct: false }, { text: 'Никогда', correct: false } ] },
+            { id: 5, question: 'Сколько дней в неделе?', answers: [
+                { text: '5', correct: false }, { text: '6', correct: false },
+                { text: '7', correct: true }, { text: '8', correct: false } ] }
         ]
     }
 ];
@@ -38,10 +71,7 @@ const subjects = [
 let user = JSON.parse(localStorage.getItem('ruchoba-user') || 'null');
 let progress = JSON.parse(localStorage.getItem('ruchoba-progress') || '{}');
 
-// === Всё делаем после загрузки страницы ===
 window.addEventListener('load', () => {
-    console.log('РУчеба: скрипт загружен');
-
     const welcomeScreen = document.getElementById('welcome-screen');
     const subjectsScreen = document.getElementById('subjects-screen');
     const tasksScreen = document.getElementById('tasks-screen');
@@ -56,20 +86,16 @@ window.addEventListener('load', () => {
     let currentSubject = null;
     let selectedGender = '';
 
-    // === Обработчики кнопок пола ===
+    // Обработчики кнопок пола
     const genderBtns = document.querySelectorAll('.gender-btn');
-    console.log('Найдено кнопок пола:', genderBtns.length);
-
     genderBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             genderBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             selectedGender = btn.dataset.gender;
-            console.log('Выбран пол:', selectedGender);
         });
     });
 
-    // === Экраны ===
     function showWelcome() {
         welcomeScreen.style.display = 'block';
         subjectsScreen.style.display = 'none';
@@ -82,35 +108,26 @@ window.addEventListener('load', () => {
         subjectsScreen.style.display = 'block';
         tasksScreen.style.display = 'none';
         taskScreen.style.display = 'none';
-
-        const greeting = document.getElementById('greeting');
-        if (greeting) {
-            greeting.textContent = `Привет, ${user.firstName}! Ты в ${user.grade} классе.`;
-        }
+        document.getElementById('greeting').textContent =
+            `Привет, ${user.firstName}! Ты в ${user.grade} классе.`;
         renderSubjects();
     }
 
-    // === Кнопка «Начать учиться» ===
     startBtn.addEventListener('click', () => {
-        console.log('Кнопка нажата');
         const grade = classSelect.value;
         const fName = firstName.value.trim();
         const lName = lastName.value.trim();
 
-        console.log('Данные:', { grade, fName, lName, selectedGender });
-
-        if (!grade || !fName || !lName || !selectedGender) {
-            formError.textContent = 'Заполни все поля, пожалуйста!';
-            return;
-        }
+        if (!grade) { formError.textContent = '❌ Выбери класс!'; return; }
+        if (!fName) { formError.textContent = '❌ Впиши имя!'; return; }
+        if (!lName) { formError.textContent = '❌ Впиши фамилию!'; return; }
+        if (!selectedGender) { formError.textContent = '❌ Выбери пол!'; return; }
 
         user = { grade, firstName: fName, lastName: lName, gender: selectedGender };
         localStorage.setItem('ruchoba-user', JSON.stringify(user));
-        console.log('Пользователь сохранён:', user);
         showSubjects();
     });
 
-    // === Главный экран: предметы ===
     function renderSubjects() {
         const grid = document.getElementById('subjectsGrid');
         grid.innerHTML = '';
@@ -140,7 +157,6 @@ window.addEventListener('load', () => {
         });
     }
 
-    // === Экран заданий по предмету ===
     function openSubject(sub) {
         currentSubject = sub;
         document.getElementById('subjectTitle').textContent = sub.name;
@@ -167,7 +183,6 @@ window.addEventListener('load', () => {
         taskScreen.style.display = 'none';
     }
 
-    // === Экран задания ===
     function openTask(sub, task) {
         currentSubject = sub;
         document.getElementById('taskNumber').textContent = `Задание ${task.id}`;
@@ -211,7 +226,6 @@ window.addEventListener('load', () => {
         taskScreen.style.display = 'block';
     }
 
-    // === Кнопки «Назад» ===
     document.getElementById('backToSubjects').addEventListener('click', () => {
         showSubjects();
     });
@@ -220,7 +234,6 @@ window.addEventListener('load', () => {
         if (currentSubject) openSubject(currentSubject);
     });
 
-    // === Старт ===
     if (user) {
         showSubjects();
     } else {
