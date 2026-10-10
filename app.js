@@ -52,6 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastName = document.getElementById('lastName');
     const formError = document.getElementById('formError');
 
+// Пол
+let selectedGender = '';
+document.querySelectorAll('.gender-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedGender = btn.dataset.gender;
+    });
+});
+
     let currentSubject = null;
 
     // === Регистрация ===
@@ -72,20 +82,20 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSubjects();
     }
 
-    startBtn.addEventListener('click', () => {
-        const grade = classSelect.value;
-        const fName = firstName.value.trim();
-        const lName = lastName.value.trim();
+startBtn.addEventListener('click', () => {
+    const grade = classSelect.value;
+    const fName = firstName.value.trim();
+    const lName = lastName.value.trim();
 
-        if (!grade || !fName || !lName) {
-            formError.textContent = 'Заполни все поля, пожалуйста!';
-            return;
-        }
+    if (!grade || !fName || !lName || !selectedGender) {
+        formError.textContent = 'Заполни все поля, пожалуйста!';
+        return;
+    }
 
-        user = { grade, firstName: fName, lastName: lName };
-        localStorage.setItem('ruchoba-user', JSON.stringify(user));
-        showSubjects();
-    });
+    user = { grade, firstName: fName, lastName: lName, gender: selectedGender };
+    localStorage.setItem('ruchoba-user', JSON.stringify(user));
+    showSubjects();
+});
 
     // === Главный экран: предметы ===
     function renderSubjects() {
