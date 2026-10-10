@@ -1,65 +1,146 @@
-// Список всех заданий
-const tasks = [
+// Структура данных: предметы и задания
+const subjects = [
     {
-        id: 1,
-        subject: 'Математика',
-        question: 'Найдите значение выражения: 2 + 2 × 2',
-        answers: [
-            { text: '4', correct: false },
-            { text: '6', correct: true },
-            { text: '8', correct: false },
-            { text: '2', correct: false }
+        id: 'math',
+        name: 'Математика',
+        icon: '📐',
+        tasks: [
+            {
+                id: 1,
+                question: 'Найдите значение выражения: 2 + 2 × 2',
+                answers: [
+                    { text: '4', correct: false },
+                    { text: '6', correct: true },
+                    { text: '8', correct: false },
+                    { text: '2', correct: false }
+                ]
+            },
+            {
+                id: 2,
+                question: 'Сколько будет 7 × 8?',
+                answers: [
+                    { text: '48', correct: false },
+                    { text: '54', correct: false },
+                    { text: '56', correct: true },
+                    { text: '64', correct: false }
+                ]
+            }
         ]
     },
     {
-        id: 2,
-        subject: 'Русский язык',
-        question: 'Сколько букв в слове «РУчеба»?',
-        answers: [
-            { text: '5', correct: false },
-            { text: '6', correct: true },
-            { text: '7', correct: false },
-            { text: '4', correct: false }
+        id: 'rus',
+        name: 'Русский язык',
+        icon: '📖',
+        tasks: [
+            {
+                id: 1,
+                question: 'Сколько букв в слове «РУчеба»?',
+                answers: [
+                    { text: '5', correct: false },
+                    { text: '6', correct: true },
+                    { text: '7', correct: false },
+                    { text: '4', correct: false }
+                ]
+            }
         ]
     },
     {
-        id: 3,
-        subject: 'Математика',
-        question: 'Сколько будет 7 × 8?',
-        answers: [
-            { text: '48', correct: false },
-            { text: '54', correct: false },
-            { text: '56', correct: true },
-            { text: '64', correct: false }
+        id: 'world',
+        name: 'Окружающий мир',
+        icon: '🌍',
+        tasks: [
+            {
+                id: 1,
+                question: 'Какая планета ближе всего к Солнцу?',
+                answers: [
+                    { text: 'Венера', correct: false },
+                    { text: 'Меркурий', correct: true },
+                    { text: 'Марс', correct: false },
+                    { text: 'Земля', correct: false }
+                ]
+            }
         ]
     }
 ];
 
+// Прогресс: { 'math-1': true, 'rus-1': true, ... }
+let progress = JSON.parse(localStorage.getItem('ruchoba-progress') || '{}');
+
 document.addEventListener('DOMContentLoaded', () => {
-    const listScreen = document.getElementById('list-screen');
+    const subjectsScreen = document.getElementById('subjects-screen');
+    const tasksScreen = document.getElementById('tasks-screen');
     const taskScreen = document.getElementById('task-screen');
-    const taskList = document.getElementById('taskList');
-    const backBtn = document.getElementById('backBtn');
 
-    // Рисуем список заданий
-    tasks.forEach(task => {
-        const item = document.createElement('div');
-        item.className = 'task-list-item';
-        item.innerHTML = `
-            <div class="info">
-                <span class="title">Задание ${task.id}</span>
-                <span class="subject">${task.subject}</span>
-            </div>
-            <span class="arrow">→</span>
-        `;
-        item.addEventListener('click', () => openTask(task));
-        taskList.appendChild(item);
-    });
+    let currentSubject = null;
+    let currentTask = null;
 
-    // Открыть задание
-    function openTask(task) {
+    // === Главный экран: предметы ===
+    function renderSubjects() {
+        const grid = document.getElementById('subjectsGrid');
+        grid.innerHTML = '';
+
+        subjects.forEach(sub => {
+            const solved = sub.tasks.filter(t => progress[`${sub.id}-${t.id}`]).length;
+            const total = sub.tasks.length;
+            const percent = total === 0 ? 0 : Math.round((solved / total) * 100);
+
+            const card = document.createElement('div');
+            card.className = 'subject-card';
+            card.innerHTML = `
+                <div class="subject-icon">${sub.icon}</div>
+                <div class="subject-name">${sub.name}</div>
+                <div class="progress-circle">
+                    <svg viewBox="0 0 36 36">
+                        <circle class="bg" cx="18" cy="18" r="15.9"></circle>
+                        <circle class="fg" cx="18" cy="18" r="15.9"
+                            stroke-dasharray="${percent} 100"
+                            stroke-dashoffset="0"></circle>
+                    </svg>
+                    <span class="percent">${percent}%</span>
+                </div>
+                <div class="status-text" style="font-size:11px;color:#888;">
+                    ${solved} из ${total}
+                </div>
+            `;
+            card.addEventListener('click', () => openSubject(sub));
+            grid.appendChild(card);
+        });
+    }
+
+    // === Экран заданий по предмету ===
+    function openSubject(sub) {
+        currentSubject = sub;
+        document.getElementById('subjectTitle').textContent = sub.name;
+        const list = document.getElementById('taskList');
+        list.innerHTML = '';
+
+        sub.tasks.forEach(t => {
+            const isSolved = progress[`${sub.id}-${t.id}`];
+            const item = document.createElement('div');
+            item.className = 'task-list-item' + (isSolved ? ' solved' : '');
+            item.innerHTML = `
+                <div class="info">
+                    <span class="title">Задание ${t.id}</span>
+                    <span class="status">${isSolved ? '✅ Решено' : 'Не решено'}</span>
+                </div>
+                <span class="arrow">→</span>
+            `;
+            item.addEventListener('click', () => openTask(sub, t));
+            list.appendChild(item);
+        });
+
+        subjectsScreen.style.display = 'none';
+        tasksScreen.style.display = 'block';
+        taskScreen.style.display = 'none';
+    }
+
+    // === Экран задания ===
+    function openTask(sub, task) {
+        currentSubject = sub;
+        currentTask = task;
+
         document.getElementById('taskNumber').textContent = `Задание ${task.id}`;
-        document.getElementById('taskSubject').textContent = task.subject;
+        document.getElementById('taskSubject').textContent = sub.name;
         document.getElementById('taskQuestion').textContent = task.question;
         document.getElementById('result').textContent = '';
         document.getElementById('result').className = 'result';
@@ -87,6 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isCorrect) {
                     result.textContent = '✅ Верно!';
                     result.className = 'result success';
+                    // Сохраняем прогресс
+                    progress[`${sub.id}-${task.id}`] = true;
+                    localStorage.setItem('ruchoba-progress', JSON.stringify(progress));
                 } else {
                     btn.classList.add('wrong');
                     result.textContent = '❌ Неверно. Правильный ответ выделен зелёным.';
@@ -97,13 +181,21 @@ document.addEventListener('DOMContentLoaded', () => {
             answersDiv.appendChild(btn);
         });
 
-        listScreen.style.display = 'none';
+        tasksScreen.style.display = 'none';
         taskScreen.style.display = 'block';
     }
 
-    // Назад к списку
-    backBtn.addEventListener('click', () => {
-        listScreen.style.display = 'block';
-        taskScreen.style.display = 'none';
+    // === Кнопки «Назад» ===
+    document.getElementById('backToSubjects').addEventListener('click', () => {
+        renderSubjects();
+        subjectsScreen.style.display = 'block';
+        tasksScreen.style.display = 'none';
     });
+
+    document.getElementById('backToTasks').addEventListener('click', () => {
+        if (currentSubject) openSubject(currentSubject);
+    });
+
+    // Старт
+    renderSubjects();
 });

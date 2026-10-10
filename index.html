@@ -13,19 +13,26 @@
     </header>
 
     <main>
-        <!-- Экран со списком заданий -->
-        <div id="list-screen">
-            <h2 class="screen-title">Выбери задание</h2>
+        <!-- Главный экран: предметы -->
+        <div id="subjects-screen">
+            <h2 class="screen-title">Выбери предмет</h2>
+            <div class="subjects-grid" id="subjectsGrid"></div>
+        </div>
+
+        <!-- Экран заданий по предмету -->
+        <div id="tasks-screen" style="display: none;">
+            <button class="back-btn" id="backToSubjects">← Назад к предметам</button>
+            <h2 class="screen-title" id="subjectTitle"></h2>
             <div class="task-list" id="taskList"></div>
         </div>
 
-        <!-- Экран с заданием -->
+        <!-- Экран одного задания -->
         <div id="task-screen" style="display: none;">
-            <button class="back-btn" id="backBtn">← Назад к списку</button>
+            <button class="back-btn" id="backToTasks">← Назад к заданиям</button>
             <div class="task-card" id="task">
                 <div class="task-header">
                     <span class="task-number" id="taskNumber">Задание 1</span>
-                    <span class="task-subject" id="taskSubject">Математика</span>
+                    <span class="task-subject" id="taskSubject"></span>
                 </div>
                 <p class="task-question" id="taskQuestion"></p>
                 <div class="answers" id="answers"></div>

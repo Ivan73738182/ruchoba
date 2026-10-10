@@ -16,44 +16,117 @@ body {
 header {
     background: #2d6a4f;
     color: white;
-    padding: 24px;
+    padding: 20px;
     text-align: center;
 }
 
 header h1 {
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 4px;
 }
 
 .subtitle {
-    font-size: 14px;
+    font-size: 13px;
     opacity: 0.85;
 }
 
 main {
     flex: 1;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-main > div {
+    padding: 16px;
+    max-width: 600px;
     width: 100%;
-    max-width: 500px;
+    margin: 0 auto;
 }
 
 .screen-title {
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 16px;
     text-align: center;
+    color: #2d6a4f;
+}
+
+/* Сетка предметов — 2 колонки */
+.subjects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.subject-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    gap: 8px;
+}
+
+.subject-card:active {
+    transform: scale(0.97);
+}
+
+.subject-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.subject-icon {
+    font-size: 40px;
+}
+
+.subject-name {
+    font-size: 15px;
+    font-weight: bold;
+    color: #1a1a2e;
+}
+
+/* Круговой прогресс */
+.progress-circle {
+    width: 56px;
+    height: 56px;
+    position: relative;
+}
+
+.progress-circle svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.progress-circle .bg {
+    fill: none;
+    stroke: #e9ecef;
+    stroke-width: 6;
+}
+
+.progress-circle .fg {
+    fill: none;
+    stroke: #52b788;
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s;
+}
+
+.progress-circle .percent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: bold;
     color: #2d6a4f;
 }
 
 /* Список заданий */
 .task-list {
     display: grid;
-    gap: 12px;
+    gap: 10px;
 }
 
 .task-list-item {
@@ -65,7 +138,7 @@ main > div {
     align-items: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition: transform 0.15s;
     border: 2px solid transparent;
 }
 
@@ -73,9 +146,9 @@ main > div {
     transform: scale(0.98);
 }
 
-.task-list-item:hover {
+.task-list-item.solved {
     border-color: #52b788;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #f0faf4;
 }
 
 .task-list-item .info {
@@ -86,21 +159,26 @@ main > div {
 
 .task-list-item .title {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
 }
 
-.task-list-item .subject {
-    font-size: 13px;
+.task-list-item .status {
+    font-size: 12px;
     color: #888;
+}
+
+.task-list-item.solved .status {
+    color: #2d6a4f;
+    font-weight: bold;
 }
 
 .task-list-item .arrow {
     color: #52b788;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
 }
 
-/* Экран задания */
+/* Кнопка назад */
 .back-btn {
     background: none;
     border: none;
@@ -117,10 +195,11 @@ main > div {
     opacity: 0.6;
 }
 
+/* Карточка задания */
 .task-card {
     background: white;
     border-radius: 16px;
-    padding: 24px;
+    padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -128,8 +207,8 @@ main > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
-    font-size: 13px;
+    margin-bottom: 14px;
+    font-size: 12px;
 }
 
 .task-number {
@@ -145,9 +224,9 @@ main > div {
 }
 
 .task-question {
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.5;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .answers {
@@ -190,10 +269,10 @@ main > div {
 
 .result {
     margin-top: 16px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     text-align: center;
-    min-height: 24px;
+    min-height: 22px;
 }
 
 .result.success {
@@ -206,7 +285,7 @@ main > div {
 
 footer {
     text-align: center;
-    padding: 16px;
+    padding: 14px;
     font-size: 12px;
     color: #888;
 }
