@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РУчеба — учись играя</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>📚 РУчеба</h1>
+        <p class="subtitle">Учись играя</p>
+    </header>
+
+    <main>
+        <div class="task-card" id="task">
+            <div class="task-header">
+                <span class="task-number">Задание 1</span>
+                <span class="task-subject">Математика</span>
+            </div>
+            <p class="task-question">
+                Найдите значение выражения: 2 + 2 × 2
+            </p>
+            <div class="answers">
+                <button class="answer" data-correct="false">4</button>
+                <button class="answer" data-correct="true">6</button>
+                <button class="answer" data-correct="false">8</button>
+                <button class="answer" data-correct="false">2</button>
+            </div>
+            <div class="result" id="result"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 РУчеба</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
